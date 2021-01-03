@@ -1,6 +1,11 @@
 # Family Seams #
 Application for connection management.
 
+## Projects ##
+
+* [API](./packages/api) - REST Service for managing application data.
+* [Web](./packages/web) - Website UI for application.
+
 ## Development Tools ##
 
 * [Node JS](https://nodejs.org/en/download/)
@@ -14,6 +19,24 @@ all packages.
 
 ```
 npm install
+```
+
+### Run All Locally
+
+This project includes a docker-compose that will start all projects in development 
+mode. The docker-compose expects node_modules to be populated for each project, so 
+`npm install` needs to be run before these will work.
+
+```
+# Start all projects in detached mode
+docker-compose up -d
+
+# View container status
+docker-compose ps
+
+# Remove, stop, and remove volumes from all containers.
+# Recommended way to tear down everything locally
+docker-compose rm -fsv
 ```
 
 ## Lerna ##
@@ -42,22 +65,4 @@ npm test -- --selectProjects e2e
 
 # Run all tests for single project
 npm test -- --runTestsByPath packages/{project folder}
-```
-
-### Run All Locally
-
-This project includes a docker-compose that will start all projects in development 
-mode. The docker-compose expects node_modules to be populated for each project, so 
-`npm install` needs to be run before these will work.
-
-```
-# Start all projects in detached mode
-docker-compose up -d
-
-# View container status
-docker-compose ps
-
-# Remove, stop, and remove volumes from all containers.
-# Recommended way to tear down everything locally
-docker-compose rm -fsv
 ```
