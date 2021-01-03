@@ -1,0 +1,48 @@
+version: "3.9"
+services:
+  api:
+    container_name: api
+    image: node:15.5-buster
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      SERVER_PORT: 9000
+      LOG_REQUESTS: 'true'
+      PROBE_PORT: 9001
+    command: npm run watch
+    working_dir: /project
+    volumes:
+      - ./packages/api:/project
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9001/health || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 0s
+    networks:
+      - all
+  web:
+    depends_on: 
+      api:
+        condition: service_healthy
+    container_name: web
+    image: node:15.5-buster
+    ports:
+      - "3000:3000"
+    environment:
+      API_BASE_URL: http://api:9000
+    command: npm run dev
+    working_dir: /project
+    volumes:
+      - ./packages/web:/project
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000/ || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 0s
+    networks:
+      - all
+networks:
+  all: {}

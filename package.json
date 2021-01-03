@@ -1,0 +1,53 @@
+{
+  "name": "family-seams",
+  "version": "0.0.0",
+  "description": "Family seams application.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage",
+    "lerna": "lerna",
+    "gatsby": "gatsby",
+    "install": "lerna exec -- npm install",
+    "lint": "eslint --fix packages",
+    "doc": "jsdoc -c jsdoc.conf.json -t ./node_modules/ink-docstrap/template -R README.md -r ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/three-cs/family-seams.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/three-cs/family-seams/issues"
+  },
+  "homepage": "https://github.com/three-cs/family-seams#readme",
+  "devDependencies": {
+    "eslint": "7.17.0",
+    "eslint-config-standard": "16.0.2",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-jest": "24.1.3",
+    "eslint-plugin-jest-formatting": "2.0.0",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-promise": "4.2.1",
+    "eslint-plugin-react": "7.22.0",
+    "jest": "26.6.3",
+    "jsdoc": "3.6.6",
+    "lerna": "3.22.1"
+  },
+  "jest": {
+    "projects": [
+      {
+        "displayName": "unit",
+        "testMatch": [
+          "<rootDir>/**/*.test.js"
+        ]
+      },
+      {
+        "displayName": "e2e",
+        "testMatch": [
+          "<rootDir>/**/*.e2e.js"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "api",
+  "version": "0.0.0",
+  "description": "REST API",
+  "author": "Adam Kaplan",
+  "homepage": "https://github.com/three-cs/family-seams/tree/master/packages/api#readme",
+  "license": "MIT",
+  "main": "lib/api.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "http://localhost:4873/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/three-cs/family-seams.git"
+  },
+  "scripts": {
+    "test": "jest --coverage",
+    "watch": "nodemon lib/api.js"
+  },
+  "bugs": {
+    "url": "https://github.com/three-cs/family-seams/issues"
+  },
+  "dependencies": {
+    "express": "4.17.1",
+    "lightship": "6.6.0",
+    "openapi-backend": "3.6.3"
+  },
+  "devDependencies": {
+    "nodemon": "2.0.6"
+  }
+}

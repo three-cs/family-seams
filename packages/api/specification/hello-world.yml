@@ -1,0 +1,36 @@
+openapi: 3.0.3
+info:
+  title: Family Seams
+  description: API for Family Seams applications.
+  version: 0.0.0
+servers:
+  - url: http://api.example.com/v1
+    description: Optional server description, e.g. Main (production) server
+paths:
+  /api/hello-world:
+    get:
+      summary: Get Hello World
+      description: Responds with JSON message of "hello world"
+      operationId: apiGetHelloWorld
+      responses:
+        '200':
+          $ref: '#/components/responses/hello-world'
+components:
+  schemas:
+    text: 
+      type: 'string'
+  responses:
+    'hello-world':
+      description: Hello World Response
+      content:
+        'application/json':
+          schema: 
+            $ref: '#/components/schemas/text'
+          examples:
+            basic:
+              $ref: '#/components/examples/hello-world'
+  examples: 
+    'hello-world': 
+      summary: Hello World Example
+      description: Hello World Example
+      value: '"Hello World!!"'
