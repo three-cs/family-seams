@@ -10,6 +10,7 @@ Application for connection management.
 
 * [Node JS](https://nodejs.org/en/download/)
 * [Docker](https://docs.docker.com/get-docker/)
+* [Terraform](https://www.terraform.io/downloads.html)
 
 ## Development Setup ##
 

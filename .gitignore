@@ -135,3 +135,5 @@ yarn-error.log*
 out
 *.sublime-project
 *.sublime-workspace
+
+.terraform
