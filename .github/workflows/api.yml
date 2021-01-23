@@ -34,6 +34,8 @@ jobs:
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -44,8 +46,6 @@ jobs:
 
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
-          restore-keys: |
-            ${{ runner.os }}-buildx-
 
       - name: Docker Build and Push
         uses: docker/build-push-action@v2
