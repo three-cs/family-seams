@@ -54,7 +54,7 @@ jobs:
           push: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
-          tags:
-            - ${{ secrets.ECR_REPOSITORY_URL }}/family-seams/api:latest
-            - ${{ secrets.ECR_REPOSITORY_URL }}/family-seams/api:github-run-$GITHUB_RUN_NUMBER
+          tags: |
+            ${{ secrets.ECR_REPOSITORY_URL }}/family-seams/api:latest
+            ${{ secrets.ECR_REPOSITORY_URL }}/family-seams/api:github-run-$GITHUB_RUN_NUMBER
 
