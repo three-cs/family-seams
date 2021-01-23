@@ -1,5 +1,8 @@
+
 variable "repositories" {
-  type = set(string)
-  default = ["testing/repo"]
-  description = "Names of container image repositories."
+  type = map(string)
+  default = {
+    "api" = "api"
+  }
+  description = "Map of repository names to the associated application."
 }

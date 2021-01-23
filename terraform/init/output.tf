@@ -3,12 +3,12 @@ output "domain_is_aws_registered" {
   description = "Test if domain is an AWS Registered Domain."
 }
 
-output "domain" {
-  value       = var.domain_name
-  description = "Domain name for the application."
+output "top_level_domain" {
+  value       = local.top_level_domain
+  description = "Top Level Domain information."
 }
 
-output "hosted_zone_id" {
-  value       = data.external.registered_domain.result.hosted_zone
-  description = "Domain name for the application."
+output "organization" {
+  value       = local.organization
+  description = "Name of the organization to use."
 }

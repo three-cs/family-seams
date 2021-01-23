@@ -14,12 +14,16 @@ Steps needed to initialize AWS infrastructure.
     * purpose = initialization
   * Setup [aws cli profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) `family-seams`
   * Environment Variables:
-    * Set default profile.
-      * Windows: `set AWS_PROFILE=family-seams`
-      * Linux: `export AWS_PROFILE=family-seams`
-    * Set default region.
-      * Windows: `set AWS_DEFAULT_REGION=us-west-2`
-      * Linux: `export AWS_DEFAULT_REGION=us-west-2`
+    * Windows: 
+      ```
+      set AWS_PROFILE=family-seams
+      set AWS_DEFAULT_REGION=us-west-2
+      ```
+    * Linux: 
+      ```
+      export AWS_PROFILE=family-seams
+      export AWS_DEFAULT_REGION=us-west-2
+      ```
   * Verify correct account with: `aws sts get-caller-identity`
 
 ## Terraform Steps

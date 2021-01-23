@@ -20,6 +20,7 @@ all packages.
 
 ```
 npm install
+npm run lerna -- bootstrap
 ```
 
 ### Run All Locally
