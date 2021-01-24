@@ -9,8 +9,8 @@ module "aws" {
 
   target_regions = local.target_regions
   aws = local.aws
+  application = local.application
 
-  subdomains = ["api"]
-  namespaces = ["api"]
-  top_level_domain = local.top_level_domain
+  subdomains = [local.api.subdomain]
+  namespaces = [local.api.namespace]
 }

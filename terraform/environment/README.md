@@ -20,11 +20,13 @@ https://www.laptopmag.com/articles/use-bash-shell-windows-10
       ```
       set AWS_PROFILE=family-seams
       set AWS_DEFAULT_REGION=us-west-2
+      set KUBE_CONFIG_PATH=%HOMEPATH%\.kube\config
       ```
     * Linux: 
       ```
       export AWS_PROFILE=family-seams
       export AWS_DEFAULT_REGION=us-west-2
+      # export KUBE_CONFIG_PATH=~/.kube/config
       ```
   * Verify correct account with: `aws sts get-caller-identity`
 

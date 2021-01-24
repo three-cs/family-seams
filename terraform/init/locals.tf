@@ -6,7 +6,7 @@ locals {
   }
 
   top_level_domain = {
-    "domain" = var.domain_name
+    "domain"         = var.domain_name
     "hosted_zone_id" = data.external.registered_domain.result.hosted_zone
   }
 }

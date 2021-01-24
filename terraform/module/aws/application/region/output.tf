@@ -1,4 +1,4 @@
 output "region" {
-  value = local.region
+  value       = local.region
   description = "AWS region name."
 }

@@ -1,6 +1,6 @@
 
 output "aws" {
-  value = module.region_selector
+  value       = module.region_selector
   description = "Information about the AWS environment."
 }
 

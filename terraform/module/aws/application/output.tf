@@ -1,6 +1,6 @@
 
 
-output "subdomains" {
-  value = local.subdomains
-  description = "Domain information for all subdomains created."
-}
+# output "subdomains" {
+#   value       = local.subdomain_zones
+#   description = "Domain information for all subdomains created."
+# }

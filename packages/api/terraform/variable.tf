@@ -1,11 +1,13 @@
 
 variable "application" {
   type = string
+  default = "api"
   description = "Name of the application."
 }
 
-variable "version" {
+variable "image_version" {
   type = string
+  default = "latest"
   description = "Application version.  MUST be same as tag for container."
 }
 

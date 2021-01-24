@@ -68,7 +68,7 @@ volumePermissions:
     limits: {}
     #   cpu: 100m
     #   memory: 128Mi
-    requests: {}
+    requests:
     #   cpu: 100m
     #   memory: 128Mi
 
@@ -268,7 +268,7 @@ extraEnvVarsSecret:
 
 ## Command and args for running the container (set to default if not set). Use array form
 ##
-# command: ['/bin/bash', '-ec', 'npm start']
+command: ['/bin/bash', '-ec', 'node lib/api.js']
 # args: []
 
 ## Extra volumes to add to the deployment
@@ -302,9 +302,9 @@ resources:
   limits: {}
   #   cpu: 100m
   #   memory: 128Mi
-  requests: {}
-  #   cpu: 100m
-  #   memory: 128Mi
+  requests: 
+    cpu: 100m
+    memory: 128Mi
 
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/

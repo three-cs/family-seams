@@ -1,36 +1,36 @@
 
 variable "environment" {
-  type = string
+  type        = string
   description = "Name of the environment."
 }
 
 variable "organization" {
-  type = string
+  type        = string
   description = "Organization identifier for ownership."
 }
 
 variable "default_tags" {
-  type = map(string)
+  type        = map(string)
   description = "Map of tags to apply to all AWS resources."
 }
 
 
 
 variable "target_regions" {
-  type = set(string)
+  type        = set(string)
   description = "Regions to deploy into."
 }
 
 variable "base_cidr" {
-  type = string
-  default = "10.0.0.0/16"
+  type        = string
+  default     = "10.0.0.0/16"
   description = "CIDR to divide up amungst all AWS regions."
 }
 
 
 variable "top_level_domain" {
-  type       = object({
-    domain = string,
+  type = object({
+    domain         = string,
     hosted_zone_id = string
   })
   description = "Top Level Domain information."

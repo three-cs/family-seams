@@ -10,6 +10,6 @@ output "top_level_domain" {
 }
 
 output "ecrs" {
-  value = local.ecrs
+  value       = local.ecrs
   description = "Information about the created ECR repositories."
 }
