@@ -1,33 +1,33 @@
 
-resource "helm_release" "api" {
+resource "helm_release" "web" {
   depends_on = [ module.aws ]
   name       = local.application
   # documentation : https://github.com/bitnami/charts/tree/master/bitnami/node
   repository = "https://charts.bitnami.com/bitnami"
   chart      = "node"
   version    = "15.0.0"
-  namespace = local.api.namespace
+  namespace = local.web.namespace
   create_namespace = true
-  # wait = true
+  wait = false
   # timeout = 300
 
   values = [file("${path.module}/helm/values.yaml")]
 
   set {
     name  = "image.registry"
-    value = local.api.image.domain
+    value = local.web.image.domain
     type  = "string"
   }
 
   set {
     name  = "image.repository"
-    value = local.api.image.name
+    value = local.web.image.name
     type  = "string"
   }
 
   set {
     name  = "image.tag"
-    value = local.api.version
+    value = local.web.version
     type  = "string"
   }
 
@@ -39,25 +39,25 @@ resource "helm_release" "api" {
 
   set {
     name = "replicaCount"
-    value = local.api.replicas
+    value = local.web.replicas
     type = "auto"
   }
 
   set {
     name = "applicationPort"
-    value = local.api.http_port
+    value = local.web.http_port
     type = "auto"
   }
 
   set {
     name = "customLivenessProbe.httpGet.port"
-    value = local.api.probe_port
+    value = local.web.probe_port
     type = "auto"
   }
 
   set {
     name = "customReadinessProbe.httpGet.port"
-    value = local.api.probe_port
+    value = local.web.probe_port
     type = "auto"
   }
 
@@ -68,7 +68,7 @@ resource "helm_release" "api" {
   }
   set {
     name = "extraEnvVars[0].value"
-    value = local.api.http_port
+    value = local.web.http_port
     type = "string"
   }
 
@@ -80,7 +80,7 @@ resource "helm_release" "api" {
 
   set {
     name = "extraEnvVars[1].value"
-    value = local.api.probe_port
+    value = local.web.probe_port
     type = "string"
   }
 
@@ -109,18 +109,18 @@ resource "helm_release" "api" {
   }
 }
 
-data "kubernetes_service" "api" {
-  depends_on = [ helm_release.api ]
+data "kubernetes_service" "web" {
+  depends_on = [ helm_release.web ]
   metadata {
-    name = "api-node"
-    namespace = local.api.namespace
+    name = "web-node"
+    namespace = local.web.namespace
   }
 }
 
-resource "aws_route53_record" "api" {
+resource "aws_route53_record" "web" {
   zone_id = local.aws.top_level_domain.hosted_zone_id
-  name    = "api.${local.aws.top_level_domain.domain}"
+  name    = "web.${local.aws.top_level_domain.domain}"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.api.load_balancer_ingress[0].hostname]
+  records = [data.kubernetes_service.web.load_balancer_ingress[0].hostname]
 }
