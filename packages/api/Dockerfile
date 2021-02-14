@@ -17,7 +17,7 @@ CMD [ "lib/api.js" ]
 ENV SERVER_PORT=9000
 EXPOSE 9000
 
-# Prome Information
+# Probe Information
 ENV PROBE_PORT=9001
 EXPOSE 9001
 HEALTHCHECK --interval=30s --timeout=1s --start-period=10s --retries=3 \

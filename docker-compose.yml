@@ -2,7 +2,7 @@ version: "3.9"
 services:
   api:
     container_name: api
-    image: node:15.5-buster
+    image: node:12.20.1
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -27,7 +27,7 @@ services:
       api:
         condition: service_healthy
     container_name: web
-    image: node:15.5-buster
+    image: node:12.20.1
     ports:
       - "3000:3000"
     environment:
