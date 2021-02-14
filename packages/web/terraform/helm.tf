@@ -8,8 +8,8 @@ resource "helm_release" "web" {
   version    = "15.0.0"
   namespace = local.web.namespace
   create_namespace = true
-  wait = false
-  # timeout = 300
+  wait = true
+  timeout = 600
 
   values = [file("${path.module}/helm/values.yaml")]
 
