@@ -1,11 +1,11 @@
 import Head from 'next/head'
 
 export async function getStaticProps () {
-  const helloWorldResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/hello-world`)
+  // const helloWorldResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/hello-world`)
 
   return {
     props: {
-      helloWorld: await helloWorldResponse.json()
+      helloWorld: 'not-set' // await helloWorldResponse.json()
     }
   }
 }
