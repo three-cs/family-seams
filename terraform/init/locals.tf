@@ -6,7 +6,7 @@ locals {
   }
 
   domain_name = var.domain_name
-  domain_contact = var.domain_contact
+  # domain_contact = var.domain_contact
 
   top_level_domain = {
     "domain"         = local.domain_name

@@ -37,11 +37,10 @@ jobs:
       - name: Init Terraform
         run: |
           cd $GITHUB_WORKSPACE/terraform/init
-          echo '${{ secrets.DOMAIN_CONTACT_TFVARS }}' > contact.tfvars
           terraform init
           if aws s3api get-bucket-versioning --bucket family-seams-terraform-bucket; then
             terraform import aws_s3_bucket.terraform_bucket family-seams-terraform-bucket
           fi
-          terraform apply -var-file=contact.tfvars -auto-approve
+          terraform apply
           cat $GITHUB_WORKSPACE/terraform/init/state/init.tfstate
 
