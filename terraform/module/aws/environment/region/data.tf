@@ -17,8 +17,7 @@ resource "null_resource" "aws_fargate_roles" {
     always = timestamp()
   }
   provisioner "local-exec" {
-    command = "aws iam list-roles --query \"Roles[?contains(RoleName,`fargate`)&&contains(RoleName,`${local.region}`)]\" > ${path.module}/fargate-roles-${local.region}.json"
-    interpreter = ["/bin/bash", "-x"]
+    command = "aws iam list-roles --query \"Roles[?contains(RoleName,\`fargate\`)&&contains(RoleName,\`${local.region}\`)]\" > ${path.module}/fargate-roles-${local.region}.json"
   }
 }
 
