@@ -5,10 +5,11 @@ locals {
     purpose      = "initialization"
   }
 
+  domain_name = var.domain_name
   domain_contact = var.domain_contact
 
   top_level_domain = {
-    "domain"         = var.domain_name
-    "hosted_zone_id" = data.external.registered_domain.result.hosted_zone
+    "domain"         = local.domain_name
+    "hosted_zone_id" = data.aws_route53_zone.registered_domain.zone_id
   }
 }
