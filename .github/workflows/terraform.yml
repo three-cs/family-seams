@@ -31,5 +31,10 @@ jobs:
             terraform import aws_s3_bucket.terraform_bucket family-seams-terraform-bucket
           fi
           terraform apply -auto-approve
-          cat $GITHUB_WORKSPACE/terraform/init/state/init.tfstate
+
+      - name: Global Terraform
+        run: |
+          cd $GITHUB_WORKSPACE/terraform/global
+          terraform init -reconfigure -backend-config="bucket=family-seams-terraform-bucket"
+          terraform apply -auto-approve
 
