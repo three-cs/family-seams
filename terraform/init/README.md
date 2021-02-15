@@ -20,19 +20,36 @@ Steps needed to initialize AWS infrastructure.
       set AWS_DEFAULT_REGION=us-west-2
       ```
     * Linux: 
-      ```
+      ```bash
       export AWS_PROFILE=family-seams
       export AWS_DEFAULT_REGION=us-west-2
       ```
   * Verify correct account with: `aws sts get-caller-identity`
+4. Create var file for domain registration contact. `contact.tfvars`
+    ```hcl
+    domain_contact = {
+      AddressLine1     = ""
+      AddressLine2     = "" # not required
+      City             = ""
+      ContactType      = ""
+      CountryCode      = ""
+      Email            = ""
+      FirstName        = ""
+      LastName         = ""
+      OrganizationName = ""
+      PhoneNumber      = ""
+      State            = ""
+      ZipCode          = ""
+    }
+    ```
 
 ## Terraform Steps
 
 No workspaces are needed for initialization since this infrastrucutre is 
 used for all future terraform.
 
-```
+```bash
 terraform init
 
-terraform apply
+terraform apply -var-file=contact.tfvars
 ```

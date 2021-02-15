@@ -137,3 +137,6 @@ out
 *.sublime-workspace
 
 .terraform
+
+terraform/init/contact.tfvars
+terraform/module/aws/environment/region/fargate-roles*.json

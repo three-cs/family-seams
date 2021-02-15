@@ -22,6 +22,8 @@ locals {
 
   eks_cluster_name = var.eks_cluster_name
 
+  fargate_roles = chomp(data.local_file.aws_fargate_roles.content) == "null" ? [] : jsondecode(data.local_file.aws_fargate_roles.content)
+
   vpc = {
     "id"              = module.vpc.vpc_id
     "cidr"            = module.vpc.vpc_cidr_block

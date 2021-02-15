@@ -8,8 +8,7 @@ resource "helm_release" "api" {
   version    = "15.0.0"
   namespace = local.api.namespace
   create_namespace = true
-  wait = true
-  timeout = 600
+  wait = false
 
   values = [file("${path.module}/helm/values.yaml")]
 
@@ -122,5 +121,5 @@ resource "aws_route53_record" "api" {
   name    = "api.${local.aws.top_level_domain.domain}"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.api.load_balancer_ingress[0].hostname]
+  records = [data.kubernetes_service.api.status[0].load_balancer[0].ingress[0].hostname]
 }

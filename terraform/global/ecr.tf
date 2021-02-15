@@ -31,14 +31,6 @@ resource "aws_iam_access_key" "ci_ecr_user" {
   user = aws_iam_user.ci_ecr_user.name
 }
 
-locals {
-  ci_ecr_user_credentials_json = jsonencode({
-    "AWS_ACCESS_KEY_ID"     = aws_iam_access_key.ci_ecr_user.id
-    "AWS_SECRET_ACCESS_KEY" = aws_iam_access_key.ci_ecr_user.secret
-    "user"                  = aws_iam_access_key.ci_ecr_user.user
-  })
-}
-
 resource "aws_s3_bucket_object" "ci_ecr_user" {
   bucket       = "family-seams-terraform-bucket"
   key          = "global/credentials/ci_ecr_user.json"

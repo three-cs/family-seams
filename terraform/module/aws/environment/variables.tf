@@ -1,7 +1,7 @@
 
 variable "environment" {
   type        = string
-  description = "Name of the environment."
+  description = "Name of the environment.  If 'production', then a new subdomain will not be created."
 }
 
 variable "organization" {

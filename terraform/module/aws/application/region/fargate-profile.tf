@@ -6,5 +6,7 @@ module "eks_fargate" {
   subnet_ids   = local.aws.vpc.private_subnets
   namespaces   = local.namespaces
 
+  suffix = local.region
+
   tags = local.default_tags
 }

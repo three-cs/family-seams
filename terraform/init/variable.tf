@@ -9,3 +9,9 @@ variable "organization" {
   default     = "family-seams"
   description = "Identifier for the organization."
 }
+
+variable "domain_contact" {
+  type = map(string)
+  description = "Contact information for the domain registration."
+  sensitive = true
+}

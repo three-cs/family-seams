@@ -8,8 +8,7 @@ resource "helm_release" "web" {
   version    = "15.0.0"
   namespace = local.web.namespace
   create_namespace = true
-  wait = true
-  timeout = 600
+  wait = false
 
   values = [file("${path.module}/helm/values.yaml")]
 
@@ -122,5 +121,5 @@ resource "aws_route53_record" "web" {
   name    = "web.${local.aws.top_level_domain.domain}"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.web.load_balancer_ingress[0].hostname]
+  records = [data.kubernetes_service.web.status[0].load_balancer[0].ingress[0].hostname]
 }
