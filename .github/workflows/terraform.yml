@@ -52,5 +52,7 @@ jobs:
           aws eks update-kubeconfig --name family-seams-production
           export KUBE_CONFIG_PATH=/home/runner/.kube/config
 
+          aws iam list-roles --query "Roles[?contains(RoleName,`fargate`)&&contains(RoleName,`${{ secrets.TERRAFORM_REGION }}`)]"
+
           terraform apply -auto-approve
 
