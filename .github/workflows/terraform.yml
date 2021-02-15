@@ -2,7 +2,7 @@ name: terraform
 on:
   push:
     branches:
-      - main
+      - '**'
     paths-ignore:
       - 'lerna.json'
       - 'package.json'
