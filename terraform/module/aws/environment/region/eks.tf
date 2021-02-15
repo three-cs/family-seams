@@ -31,15 +31,15 @@ module "eks" {
   wait_for_cluster_interpreter = ["cmd"]
 
   # Apply any existing fargate roles
-  map_roles = [ for role in local.fargate_roles: {
-      rolearn  = role.Arn
-      username = "system:node:{{SessionName}}"
-      groups   = [
-        "system:bootstrappers",
-        "system:nodes",
-        "system:node-proxier"
-      ]
-    }]
+  map_roles = [for role in local.fargate_roles : {
+    rolearn  = role.Arn
+    username = "system:node:{{SessionName}}"
+    groups = [
+      "system:bootstrappers",
+      "system:nodes",
+      "system:node-proxier"
+    ]
+  }]
 }
 
 resource "aws_autoscaling_policy" "default_worker_group" {
@@ -206,13 +206,13 @@ EOF
 
 resource "kubectl_manifest" "ingress_controller_crds" {
   yaml_body = data.http.ingress_controller_crds.body
-  wait = true
+  wait      = true
 }
 
 # https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/deploy/installation/
 # https://github.com/aws/eks-charts/tree/master/stable/aws-load-balancer-controller
 resource "helm_release" "ingress_controller" {
-  depends_on = [ kubectl_manifest.ingress_controller_crds ]
+  depends_on = [kubectl_manifest.ingress_controller_crds]
   name       = "ingress-controller"
   repository = "https://aws.github.io/eks-charts"
   chart      = "aws-load-balancer-controller"

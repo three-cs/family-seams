@@ -22,6 +22,6 @@ resource "null_resource" "aws_fargate_roles" {
 }
 
 data "local_file" "aws_fargate_roles" {
-  depends_on = [ null_resource.aws_fargate_roles ]
-  filename = "${path.module}/fargate-roles-${local.region}.json"
+  depends_on = [null_resource.aws_fargate_roles]
+  filename   = "${path.module}/fargate-roles-${local.region}.json"
 }

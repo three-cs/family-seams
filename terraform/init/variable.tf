@@ -11,7 +11,7 @@ variable "organization" {
 }
 
 variable "domain_contact" {
-  type = map(string)
+  type        = map(string)
   description = "Contact information for the domain registration."
-  sensitive = true
+  sensitive   = true
 }

@@ -25,12 +25,12 @@ data "external" "registered_domain" {
     # 30 minutes to wait for registration timeout
     registration_timeout = 30 * 60
     registration = jsonencode({
-      DomainName      = var.domain_name
-      DurationInYears = 1
-      AutoRenew       = true
-      AdminContact = local.domain_contact
-      RegistrantContact = local.domain_contact
-      TechContact = local.domain_contact
+      DomainName                      = var.domain_name
+      DurationInYears                 = 1
+      AutoRenew                       = true
+      AdminContact                    = local.domain_contact
+      RegistrantContact               = local.domain_contact
+      TechContact                     = local.domain_contact
       PrivacyProtectAdminContact      = true
       PrivacyProtectRegistrantContact = true
       PrivacyProtectTechContact       = true

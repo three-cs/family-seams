@@ -11,7 +11,7 @@ data "terraform_remote_state" "global" {
 }
 
 data "terraform_remote_state" "environment" {
-  backend = "s3"
+  backend   = "s3"
   workspace = local.environment
 
   config = {

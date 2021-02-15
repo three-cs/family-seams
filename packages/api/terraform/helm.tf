@@ -1,14 +1,14 @@
 
 resource "helm_release" "api" {
-  depends_on = [ module.aws ]
+  depends_on = [module.aws]
   name       = local.application
   # documentation : https://github.com/bitnami/charts/tree/master/bitnami/node
-  repository = "https://charts.bitnami.com/bitnami"
-  chart      = "node"
-  version    = "15.0.0"
-  namespace = local.api.namespace
+  repository       = "https://charts.bitnami.com/bitnami"
+  chart            = "node"
+  version          = "15.0.0"
+  namespace        = local.api.namespace
   create_namespace = true
-  wait = false
+  wait             = false
 
   values = [file("${path.module}/helm/values.yaml")]
 
@@ -37,68 +37,68 @@ resource "helm_release" "api" {
   }
 
   set {
-    name = "replicaCount"
+    name  = "replicaCount"
     value = local.api.replicas
-    type = "auto"
+    type  = "auto"
   }
 
   set {
-    name = "applicationPort"
+    name  = "applicationPort"
     value = local.api.http_port
-    type = "auto"
+    type  = "auto"
   }
 
   set {
-    name = "customLivenessProbe.httpGet.port"
+    name  = "customLivenessProbe.httpGet.port"
     value = local.api.probe_port
-    type = "auto"
+    type  = "auto"
   }
 
   set {
-    name = "customReadinessProbe.httpGet.port"
+    name  = "customReadinessProbe.httpGet.port"
     value = local.api.probe_port
-    type = "auto"
+    type  = "auto"
   }
 
   set {
-    name = "extraEnvVars[0].name"
+    name  = "extraEnvVars[0].name"
     value = "SERVER_PORT"
-    type = "string"
+    type  = "string"
   }
   set {
-    name = "extraEnvVars[0].value"
+    name  = "extraEnvVars[0].value"
     value = local.api.http_port
-    type = "string"
+    type  = "string"
   }
 
   set {
-    name = "extraEnvVars[1].name"
+    name  = "extraEnvVars[1].name"
     value = "PROBE_PORT"
-    type = "string"
+    type  = "string"
   }
 
   set {
-    name = "extraEnvVars[1].value"
+    name  = "extraEnvVars[1].value"
     value = local.api.probe_port
-    type = "string"
+    type  = "string"
   }
 
   set {
-    name = "service.type"
+    name  = "service.type"
     value = "LoadBalancer"
-    type = "string"
+    type  = "string"
   }
 
   set {
-    name = "service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-type"
+    name  = "service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-type"
     value = "nlb-ip"
-    type = "string"
+    type  = "string"
   }
 
   set {
-    name = "ingress.enabled"
+    name  = "ingress.enabled"
     value = true
-    type = "auto"
+    type  = "auto"
   }
 
   set {
@@ -109,9 +109,9 @@ resource "helm_release" "api" {
 }
 
 data "kubernetes_service" "api" {
-  depends_on = [ helm_release.api ]
+  depends_on = [helm_release.api]
   metadata {
-    name = "api-node"
+    name      = "api-node"
     namespace = local.api.namespace
   }
 }
