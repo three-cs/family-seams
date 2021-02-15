@@ -48,7 +48,7 @@ jobs:
           git add .
           git commit -m "Update root package.json version."
           
-          npm run lerna -- version patch
+          npm run lerna -- version patch --force-publish
           git push origin
 
   deploy:
@@ -103,6 +103,33 @@ jobs:
 
           terraform apply -auto-approve
 
+  deploy-api:
+    name: Deploy Application - api
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: mstachniuk/ci-skip@v1
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.TERRAFORM_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.TERRAFORM_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.TERRAFORM_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.6
+
+      - name: Setup Kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          version: v1.19.3
+
       - name: Application Terraform - api
         run: |
           cd $GITHUB_WORKSPACE/packages/api/terraform
@@ -114,6 +141,33 @@ jobs:
 
           terraform apply -auto-approve
 
+  deploy-web:
+    name: Deploy Application - web
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: mstachniuk/ci-skip@v1
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.TERRAFORM_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.TERRAFORM_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.TERRAFORM_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.6
+
+      - name: Setup Kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          version: v1.19.3
+
       - name: Application Terraform - web
         run: |
           cd $GITHUB_WORKSPACE/packages/web/terraform
@@ -124,4 +178,3 @@ jobs:
           export KUBE_CONFIG_PATH=/home/runner/.kube/config
 
           terraform apply -auto-approve
-
