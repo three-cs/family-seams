@@ -23,7 +23,7 @@ jobs:
         with:
           terraform_version: 0.14.6
 
-      - name: Init Terraform
+      - name: Initialization Terraform
         run: |
           cd $GITHUB_WORKSPACE/terraform/init
           terraform init
@@ -37,4 +37,16 @@ jobs:
           cd $GITHUB_WORKSPACE/terraform/global
           terraform init -reconfigure -backend-config="bucket=family-seams-terraform-bucket"
           terraform apply -auto-approve
+
+      - name: Setup Kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          version: v1.19.3
+
+      - name: Environment Terraform
+        run: |
+          cd $GITHUB_WORKSPACE/terraform/environment
+          terraform init -reconfigure -backend-config="bucket=family-seams-terraform-bucket"
+          terraform plan
+          # terraform apply -auto-approve
 
