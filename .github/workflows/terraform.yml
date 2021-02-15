@@ -50,6 +50,7 @@ jobs:
           terraform workspace select production
 
           aws eks update-kubeconfig --name family-seams-production
+          export KUBE_CONFIG_PATH=/home/runner/.kube/config
 
           terraform plan
           # terraform apply -auto-approve
