@@ -1,5 +1,8 @@
 name: web
-on: push
+on: 
+  push:
+    branches-ignore:
+      - ci-cd
 jobs:
   build:
     name: Build
