@@ -30,6 +30,6 @@ jobs:
           if aws s3api get-bucket-versioning --bucket family-seams-terraform-bucket; then
             terraform import aws_s3_bucket.terraform_bucket family-seams-terraform-bucket
           fi
-          terraform apply
+          terraform apply -auto-approve
           cat $GITHUB_WORKSPACE/terraform/init/state/init.tfstate
 
