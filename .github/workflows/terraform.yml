@@ -47,6 +47,7 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/terraform/environment
           terraform init -reconfigure -backend-config="bucket=family-seams-terraform-bucket"
+          terraform workspace set production
           terraform plan
           # terraform apply -auto-approve
 
