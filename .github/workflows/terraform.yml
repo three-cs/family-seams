@@ -39,6 +39,6 @@ jobs:
           cd $GITHUB_WORKSPACE/terraform/init
           echo '${{ secrets.DOMAIN_CONTACT_TFVARS }}' > contact.tfvars
           terraform init
-          terraform apply -var-file=contact.tfvars
+          terraform apply -var-file=contact.tfvars -auto-approve
           cat $GITHUB_WORKSPACE/terraform/init/state/init.tfstate
 
