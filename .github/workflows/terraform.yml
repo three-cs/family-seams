@@ -54,3 +54,25 @@ jobs:
 
           terraform apply -auto-approve
 
+      - name: Application Terraform - api
+        run: |
+          cd $GITHUB_WORKSPACE/packages/api/terraform
+          terraform init -reconfigure -backend-config="bucket=family-seams-terraform-bucket"
+          terraform workspace select production
+
+          aws eks update-kubeconfig --name family-seams-production
+          export KUBE_CONFIG_PATH=/home/runner/.kube/config
+
+          terraform apply -auto-approve
+
+      - name: Application Terraform - web
+        run: |
+          cd $GITHUB_WORKSPACE/packages/web/terraform
+          terraform init -reconfigure -backend-config="bucket=family-seams-terraform-bucket"
+          terraform workspace select production
+
+          aws eks update-kubeconfig --name family-seams-production
+          export KUBE_CONFIG_PATH=/home/runner/.kube/config
+
+          terraform apply -auto-approve
+
