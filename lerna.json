@@ -6,7 +6,7 @@
   "command": {
     "version": {
       "exact": true,
-      "message": "chore(release): publish %v",
+      "message": "Increment to version [%v]",
       "noChangelog": true,
       "forceGitTag": true,
       "tagVersionPrefix": "",
