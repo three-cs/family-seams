@@ -1,6 +1,6 @@
 {
   "name": "family-seams",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Family seams application.",
   "main": "index.js",
   "scripts": {
