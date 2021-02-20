@@ -49,7 +49,7 @@ kubectl config set-context $CLUSTER_NAME-$REGION
 terraform init
 
 # Change workspace
-terraform workspace set {ENVIRONMENT}
+terraform workspace select {ENVIRONMENT}
 
 terraform apply
 ```
@@ -63,7 +63,7 @@ The workspace name becomes the environment identifier.
 terraform workspace list
 
 # Switch workspaces
-terraform workspace set {ENVIRONMENT}
+terraform workspace select {ENVIRONMENT}
 
 # Create new workspace
 terraform workspace new {ENVIRONMENT}

@@ -22,7 +22,7 @@ https://www.laptopmag.com/articles/use-bash-shell-windows-10
       set AWS_DEFAULT_REGION=us-west-2
       ```
     * Linux: 
-      ```
+      ```bash
       export AWS_PROFILE=family-seams
       export AWS_DEFAULT_REGION=us-west-2
       ```
@@ -56,11 +56,11 @@ kubectl config set-context $CLUSTER_NAME-$REGION
 No workspaces are needed for initialization since this infrastrucutre is 
 used for all future terraform.
 
-```
+```bash
 terraform init
 
 # Change workspace
-terraform workspace set {ENVIRONMENT}
+terraform workspace select {ENVIRONMENT}
 
 terraform apply
 ```
@@ -69,12 +69,12 @@ terraform apply
 Workspaces are used to separate resources that are managed between environments.
 The workspace name becomes the environment identifier.
 
-```
+```bash
 # Show available workspaces.
 terraform workspace list
 
 # Switch workspaces
-terraform workspace set {ENVIRONMENT}
+terraform workspace select {ENVIRONMENT}
 
 # Create new workspace
 terraform workspace new {ENVIRONMENT}

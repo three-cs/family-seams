@@ -1,0 +1,180 @@
+name: terraform
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'lerna.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'packages/*/package.json'
+      - 'packages/*/package-lock.json'
+jobs:
+  version:
+    name: Version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          
+      - uses: mstachniuk/ci-skip@v1
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Node Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install
+        run: |
+          npm ci
+          npm run lerna -- exec npm ci
+
+      - name: Version
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          
+          npm --no-git-tag-version version patch
+          git add .
+          git commit -m "Update root package.json version."
+          
+          npm run lerna -- version patch --force-publish
+          git push origin
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: mstachniuk/ci-skip@v1
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.TERRAFORM_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.TERRAFORM_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.TERRAFORM_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.6
+
+      - name: Initialization Terraform
+        run: |
+          cd $GITHUB_WORKSPACE/terraform/init
+          terraform init
+          if aws s3api get-bucket-versioning --bucket family-seams-terraform-bucket; then
+            terraform import aws_s3_bucket.terraform_bucket family-seams-terraform-bucket
+          fi
+          terraform apply -auto-approve
+
+      - name: Global Terraform
+        run: |
+          cd $GITHUB_WORKSPACE/terraform/global
+          terraform init -reconfigure -backend-config="bucket=family-seams-terraform-bucket"
+          terraform apply -auto-approve
+
+      - name: Setup Kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          version: v1.19.3
+
+      - name: Environment Terraform
+        run: |
+          cd $GITHUB_WORKSPACE/terraform/environment
+          terraform init -reconfigure -backend-config="bucket=family-seams-terraform-bucket"
+          terraform workspace select production
+
+          aws eks update-kubeconfig --name family-seams-production
+          export KUBE_CONFIG_PATH=/home/runner/.kube/config
+
+          terraform apply -auto-approve
+
+  deploy-api:
+    name: Deploy Application - api
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: mstachniuk/ci-skip@v1
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.TERRAFORM_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.TERRAFORM_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.TERRAFORM_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.6
+
+      - name: Setup Kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          version: v1.19.3
+
+      - name: Application Terraform - api
+        run: |
+          cd $GITHUB_WORKSPACE/packages/api/terraform
+          terraform init -reconfigure -backend-config="bucket=family-seams-terraform-bucket"
+          terraform workspace select production
+
+          aws eks update-kubeconfig --name family-seams-production
+          export KUBE_CONFIG_PATH=/home/runner/.kube/config
+
+          terraform apply -auto-approve
+
+  deploy-web:
+    name: Deploy Application - web
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: mstachniuk/ci-skip@v1
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.TERRAFORM_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.TERRAFORM_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.TERRAFORM_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.6
+
+      - name: Setup Kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          version: v1.19.3
+
+      - name: Application Terraform - web
+        run: |
+          cd $GITHUB_WORKSPACE/packages/web/terraform
+          terraform init -reconfigure -backend-config="bucket=family-seams-terraform-bucket"
+          terraform workspace select production
+
+          aws eks update-kubeconfig --name family-seams-production
+          export KUBE_CONFIG_PATH=/home/runner/.kube/config
+
+          terraform apply -auto-approve

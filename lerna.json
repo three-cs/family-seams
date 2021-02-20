@@ -2,11 +2,11 @@
   "packages": [
     "packages/*"
   ],
-  "version": "0.0.0",
+  "version": "0.0.6",
   "command": {
     "version": {
       "exact": true,
-      "message": "chore(release): publish %v",
+      "message": "[ci skip] Increment to version [%v]",
       "noChangelog": true,
       "forceGitTag": true,
       "tagVersionPrefix": "",

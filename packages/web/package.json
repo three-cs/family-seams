@@ -1,7 +1,6 @@
 {
   "name": "web",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.0.6",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -12,6 +11,5 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "sass": "1.32.0"
-  },
-  "devDependencies": {}
+  }
 }
