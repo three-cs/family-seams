@@ -1,5 +1,7 @@
 name: api
-on: push
+on: 
+  workflow_dispatch: {}
+  push: {}
 jobs:
   build:
     name: Build
