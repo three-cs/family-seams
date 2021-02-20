@@ -7,7 +7,6 @@
     "test": "jest --coverage",
     "lerna": "lerna",
     "gatsby": "gatsby",
-    "install": "lerna exec -- npm install",
     "lint": "eslint --fix packages",
     "doc": "jsdoc -c jsdoc.conf.json -t ./node_modules/ink-docstrap/template -R README.md -r ."
   },

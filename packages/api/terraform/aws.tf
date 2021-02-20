@@ -1,0 +1,16 @@
+
+
+module "aws" {
+  source = "../../../terraform/module/aws/application"
+
+  environment  = local.environment
+  organization = local.organization
+  default_tags = local.default_tags
+
+  target_regions = local.target_regions
+  aws            = local.aws
+  application    = local.application
+
+  subdomains = [local.api.subdomain]
+  namespaces = [local.api.namespace]
+}

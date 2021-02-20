@@ -8,8 +8,11 @@ Application for connection management.
 
 ## Development Tools ##
 
-* [Node JS](https://nodejs.org/en/download/)
-* [Docker](https://docs.docker.com/get-docker/)
+* [node](https://nodejs.org/en/download/)
+* [docker](https://docs.docker.com/get-docker/)
+* [terraform](https://www.terraform.io/downloads.html)
+* [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+* [helm](https://helm.sh/docs/intro/install/)
 
 ## Development Setup ##
 
@@ -17,8 +20,9 @@ After checkout run the following command from the root of the
 checkout directory to install all node modules for root and
 all packages.
 
-```
+```bash
 npm install
+npm run lerna -- bootstrap
 ```
 
 ### Run All Locally
@@ -27,7 +31,7 @@ This project includes a docker-compose that will start all projects in developme
 mode. The docker-compose expects node_modules to be populated for each project, so 
 `npm install` needs to be run before these will work.
 
-```
+```bash
 # Start all projects in detached mode
 docker-compose up -d
 
@@ -44,8 +48,8 @@ docker-compose rm -fsv
 There is no need to install this globaly, and instead the following
 script alias can be used for any Lerna command.
 
-```
-npm run lerna -- [lerna commands]
+```bash
+npm run lerna -- lerna commands
 ```
 
 ## Tests ##
@@ -53,7 +57,7 @@ Tests are run by [Jest](https://jestjs.io/docs/en/getting-started.html).
 This project will use the [package.json](https://jestjs.io/docs/en/configuration) for Jest configuration.
 Customize the run with [Jest CLI Options](https://jestjs.io/docs/en/cli) passed to the `npm test` command.
 
-```
+```bash
 # Run all tests
 npm test
 
