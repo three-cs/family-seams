@@ -1,8 +1,5 @@
 name: api
-on: 
-  push:
-    branches-ignore:
-      - ci-cd
+on: push
 jobs:
   build:
     name: Build
