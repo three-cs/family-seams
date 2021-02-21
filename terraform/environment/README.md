@@ -12,11 +12,13 @@ And environment is a separation between the full application stack.
     ```
     set AWS_PROFILE=family-seams
     set AWS_DEFAULT_REGION=us-west-2
+    set KUBE_CONFIG_PATH=%HOMEPATH%\.kube\config
     ```
   * Linux: 
     ```bash
     export AWS_PROFILE=family-seams
     export AWS_DEFAULT_REGION=us-west-2
+    export KUBE_CONFIG_PATH=~/.kube/config
     ```
 * Verify correct account with: `aws sts get-caller-identity`
 
