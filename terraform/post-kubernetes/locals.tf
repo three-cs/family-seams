@@ -6,4 +6,8 @@ locals {
     environment  = local.environment
     purpose      = "post-kubernetes"
   }
+
+  target_regions = var.target_regions
+  
+  aws = data.terraform_remote_state.environment.outputs.aws
 }

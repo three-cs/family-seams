@@ -5,6 +5,7 @@ module "us_east_1" {
   environment  = local.environment
   organization = local.organization
   default_tags = local.default_tags
+  aws_region = local.aws.regions["us-east-1"]
 
   providers = {
     aws        = aws.us_east_1
@@ -19,6 +20,7 @@ module "us_east_2" {
   environment  = local.environment
   organization = local.organization
   default_tags = local.default_tags
+  aws_region = local.aws.regions["us-east-2"]
 
   providers = {
     aws        = aws.us_east_2
@@ -33,6 +35,7 @@ module "us_west_1" {
   environment  = local.environment
   organization = local.organization
   default_tags = local.default_tags
+  aws_region = local.aws.regions["us-west-1"]
 
   providers = {
     aws        = aws.us_west_1
@@ -47,6 +50,7 @@ module "us_west_2" {
   environment  = local.environment
   organization = local.organization
   default_tags = local.default_tags
+  aws_region = local.aws.regions["us-west-2"]
 
   providers = {
     aws        = aws.us_west_2

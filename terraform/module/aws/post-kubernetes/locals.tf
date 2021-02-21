@@ -5,6 +5,8 @@ locals {
 
   target_regions = var.target_regions
 
+  aws = var.aws
+
   region_modules = concat(
     module.us_east_1,
     module.us_east_2,

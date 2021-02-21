@@ -8,3 +8,13 @@ data "terraform_remote_state" "global" {
     key    = "global/terraform.tfstate"
   }
 }
+
+data "terraform_remote_state" "environment" {
+  backend   = "s3"
+  workspace = local.environment
+
+  config = {
+    bucket = "family-seams-terraform-bucket"
+    key    = "environment/terraform.tfstate"
+  }
+}

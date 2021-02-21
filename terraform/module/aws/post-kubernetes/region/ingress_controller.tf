@@ -18,7 +18,7 @@ resource "helm_release" "ingress_controller" {
 
   set {
     name  = "clusterName"
-    value = module.eks.cluster_id
+    value = local.aws_region.eks.name
     type  = "string"
   }
 

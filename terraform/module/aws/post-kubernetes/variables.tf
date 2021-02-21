@@ -18,3 +18,27 @@ variable "target_regions" {
   type        = set(string)
   description = "Regions to deploy into."
 }
+
+variable "aws" {
+  type = object({
+    regions = map(object({
+      region = string,
+      eks = object({
+        name     = string,
+        arn      = string,
+        endpoint = string
+      }),
+      vpc = object({
+        id              = string,
+        cidr            = string,
+        private_subnets = set(string),
+        public_subnets  = set(string)
+      })
+    })),
+    top_level_domain = object({
+      domain         = string,
+      hosted_zone_id = string
+    })
+  })
+  description = "AWS Information from environment."
+}

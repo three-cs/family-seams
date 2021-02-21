@@ -6,4 +6,5 @@ module "region_selector" {
   organization     = local.organization
   default_tags     = local.default_tags
   target_regions = local.target_regions
+  aws = local.aws
 }

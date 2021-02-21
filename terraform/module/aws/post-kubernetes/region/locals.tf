@@ -5,4 +5,6 @@ locals {
   default_tags = merge(var.default_tags, {
     "region" = local.region
   })
+
+  aws_region = var.aws_region
 }
