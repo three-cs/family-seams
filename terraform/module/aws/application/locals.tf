@@ -9,6 +9,7 @@ locals {
   application = var.application
   namespaces  = setunion([var.application], var.namespaces)
   subdomains  = setunion([var.application], var.subdomains)
+  subdomain_load_balancers = var.subdomain_load_balancers
 
   region_modules = concat(
     module.us_east_1,

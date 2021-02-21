@@ -1,6 +1,5 @@
 
 resource "helm_release" "web" {
-  depends_on = [module.aws]
   name       = local.application
   # documentation : https://github.com/bitnami/charts/tree/master/bitnami/node
   repository       = "https://charts.bitnami.com/bitnami"
@@ -8,7 +7,8 @@ resource "helm_release" "web" {
   version          = "15.0.0"
   namespace        = local.web.namespace
   create_namespace = true
-  wait             = false
+  wait             = true
+  timeout = 600
 
   values = [file("${path.module}/helm/values.yaml")]
 
@@ -106,20 +106,4 @@ resource "helm_release" "web" {
     value = false
     type  = "auto"
   }
-}
-
-data "kubernetes_service" "web" {
-  depends_on = [helm_release.web]
-  metadata {
-    name      = "web-node"
-    namespace = local.web.namespace
-  }
-}
-
-resource "aws_route53_record" "web" {
-  zone_id = local.aws.top_level_domain.hosted_zone_id
-  name    = "web.${local.aws.top_level_domain.domain}"
-  type    = "CNAME"
-  ttl     = "300"
-  records = [data.kubernetes_service.web.status[0].load_balancer[0].ingress[0].hostname]
 }

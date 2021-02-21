@@ -25,7 +25,8 @@ module "aws" {
 
   # Application specific information
   application = "your application name"
-  subdomains = [] # Ingress Subdomains to create for the application
+  subdomains = {} # Ingress Subdomains to create for the application 
+                  # mapped to load balancer domain names
   namespaces = [] # Namespaces to create and associate with fargate profile
 }
 ```
