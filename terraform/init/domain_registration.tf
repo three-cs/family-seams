@@ -39,5 +39,5 @@
 # }
 
 data "aws_route53_zone" "registered_domain" {
-  name         = local.domain_name
+  name = local.domain_name
 }

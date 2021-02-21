@@ -1,6 +1,6 @@
 
 resource "helm_release" "api" {
-  name       = local.application
+  name = local.application
   # documentation : https://github.com/bitnami/charts/tree/master/bitnami/node
   repository       = "https://charts.bitnami.com/bitnami"
   chart            = "node"
@@ -8,7 +8,7 @@ resource "helm_release" "api" {
   namespace        = local.api.namespace
   create_namespace = true
   wait             = true
-  timeout = 600
+  timeout          = 600
 
   values = [file("${path.module}/helm/values.yaml")]
 

@@ -11,7 +11,7 @@ module "aws" {
   aws            = local.aws
   application    = local.application
 
-  subdomains = [local.web.subdomain]
+  subdomains               = [local.web.subdomain]
   subdomain_load_balancers = local.subdomain_load_balancers
-  namespaces = [local.web.namespace]
+  namespaces               = [local.web.namespace]
 }

@@ -6,9 +6,9 @@ locals {
   target_regions = var.target_regions
   aws            = var.aws
 
-  application = var.application
-  namespaces  = setunion([var.application], var.namespaces)
-  subdomains  = setunion([var.application], var.subdomains)
+  application              = var.application
+  namespaces               = setunion([var.application], var.namespaces)
+  subdomains               = setunion([var.application], var.subdomains)
   subdomain_load_balancers = var.subdomain_load_balancers
 
   region_modules = concat(
