@@ -11,6 +11,7 @@ module "us_east_1" {
 
   providers = {
     aws        = aws.us_east_1
+    kubernetes = kubernetes.us_east_1
   }
 }
 
@@ -27,6 +28,7 @@ module "us_east_2" {
 
   providers = {
     aws        = aws.us_east_2
+    kubernetes = kubernetes.us_east_2
   }
 }
 
@@ -43,6 +45,7 @@ module "us_west_1" {
 
   providers = {
     aws        = aws.us_west_1
+    kubernetes = kubernetes.us_west_1
   }
 }
 
@@ -59,5 +62,6 @@ module "us_west_2" {
 
   providers = {
     aws        = aws.us_west_2
+    kubernetes = kubernetes.us_west_2
   }
 }
