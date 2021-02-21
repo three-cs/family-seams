@@ -123,9 +123,18 @@ jobs:
           terraform init -reconfigure -backend-config="bucket=family-seams-terraform-bucket"
           terraform apply -auto-approve
 
+      - name: Setup Kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          version: v1.19.3
+
       - name: Environment Terraform
         run: |
           cd $GITHUB_WORKSPACE/terraform/environment
+
+          aws eks update-kubeconfig --name family-seams-production
+          export KUBE_CONFIG_PATH=/home/runner/.kube/config
+          
           terraform init -reconfigure -backend-config="bucket=family-seams-terraform-bucket"
 
           if ! terraform workspace select production; then
@@ -133,11 +142,6 @@ jobs:
           fi
 
           terraform apply -auto-approve
-
-      - name: Setup Kubectl
-        uses: azure/setup-kubectl@v1
-        with:
-          version: v1.19.3
 
       - name: Post Kubernetes Terraform
         run: |
