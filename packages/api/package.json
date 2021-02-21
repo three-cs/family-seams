@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "REST API",
   "author": "Adam Kaplan",
   "homepage": "https://github.com/three-cs/family-seams/tree/master/packages/api#readme",
