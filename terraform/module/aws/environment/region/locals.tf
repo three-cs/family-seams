@@ -20,7 +20,7 @@ locals {
   private_subnet_cidrs = slice(local.all_cidrs, 0, local.availability_zone_count)
   public_subnet_cidrs  = slice(local.all_cidrs, local.availability_zone_count, local.subnet_count)
 
-  eks_cluster_name = var.eks_cluster_name
+  eks = var.eks
 
   fargate_roles = chomp(data.local_file.aws_fargate_roles.content) == "null" ? [] : jsondecode(data.local_file.aws_fargate_roles.content)
 

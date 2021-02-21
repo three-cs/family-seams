@@ -6,4 +6,8 @@ terraform {
       version = "~> 3.24.1"
     }
   }
+  backend "s3" {
+    bucket = "family-seams-terraform-bucket"
+    key    = "post-kubernetes/terraform.tfstate"
+  }
 }

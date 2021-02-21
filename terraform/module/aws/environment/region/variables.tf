@@ -27,6 +27,10 @@ variable "availability_zone_count" {
   description = "Number of availability zones to target for this region."
 }
 
+variable "eks" {
+  type = map(string)
+  description = "EKS configuration information."
+}
 
 variable "eks_cluster_name" {
   type        = string
