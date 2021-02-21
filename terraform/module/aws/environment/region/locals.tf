@@ -31,7 +31,7 @@ locals {
     "public_subnets"  = module.vpc.public_subnets
   }
 
-  eks = {
+  eks_output = {
     "name"     = module.eks.cluster_id
     "arn"      = module.eks.cluster_arn
     "endpoint" = module.eks.cluster_endpoint
