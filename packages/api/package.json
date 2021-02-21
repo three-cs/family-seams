@@ -22,7 +22,8 @@
   },
   "scripts": {
     "test": "jest --coverage",
-    "watch": "nodemon lib/api.js"
+    "watch": "nodemon lib/api.js",
+    "build": "echo no-op"
   },
   "bugs": {
     "url": "https://github.com/three-cs/family-seams/issues"

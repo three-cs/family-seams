@@ -42,6 +42,11 @@ jobs:
           npm ci
           npm run lerna -- exec npm ci
 
+      - name: Build
+        run: |
+          cd packages/${{ matrix.application }}
+          npm run build
+
       - name: Set Vars
         id: vars
         run: |
