@@ -15,8 +15,8 @@ module "us_east_1" {
   default_tags = local.default_tags
 
   # Environment Region specific information
-  cidr             = 
-  eks_cluster_name = 
+  cidr         = 
+  eks          = 
 
   # Aliased providers are required if multiple regions are going to be used.
   providers = {

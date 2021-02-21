@@ -8,7 +8,6 @@ data "aws_availability_zones" "available" {
   }
 }
 
-
 resource "null_resource" "aws_fargate_roles" {
   triggers = {
     always = timestamp()

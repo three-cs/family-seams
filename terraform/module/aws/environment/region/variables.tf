@@ -31,8 +31,3 @@ variable "eks" {
   type = map(string)
   description = "EKS configuration information."
 }
-
-variable "eks_cluster_name" {
-  type        = string
-  description = "Name of the EKS cluster unique to the region."
-}

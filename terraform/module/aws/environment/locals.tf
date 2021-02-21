@@ -7,7 +7,7 @@ locals {
 
   eks = {
     "name" = local.eks_cluster_name
-    "worker_policy_arn" = aws_iam_policy.worker_policy
+    "worker_policy_arn" = aws_iam_policy.worker_policy.arn
   }
 
   target_regions = tolist(var.target_regions)
