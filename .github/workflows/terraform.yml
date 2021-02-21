@@ -77,7 +77,7 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/terraform/init
           terraform init
-          if aws s3api get-bucket-versioning --bucket family-seams-terraform-bucket; then
+          if ! terraform state show aws_s3_bucket.terraform_bucket > /dev/null 2>&1 && aws s3api get-bucket-versioning --bucket family-seams-terraform-bucket > /dev/null; then
             terraform import aws_s3_bucket.terraform_bucket family-seams-terraform-bucket
           fi
           terraform apply -auto-approve
