@@ -60,3 +60,9 @@ variable "subdomains" {
   default     = []
   description = "Subdomains to create for the kubernetes services."
 }
+
+variable "subdomain_load_balancers" {
+  type        = map(string)
+  default     = {}
+  description = "Map of subdomains to aws load balancer hostnames."
+}

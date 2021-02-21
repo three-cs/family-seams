@@ -19,3 +19,11 @@ data "terraform_remote_state" "environment" {
     key    = "environment/terraform.tfstate"
   }
 }
+
+
+data "kubernetes_service" "web" {
+  metadata {
+    name      = "${helm_release.web.metadata[0].name}-node"
+    namespace = helm_release.web.metadata[0].namespace
+  }
+}
