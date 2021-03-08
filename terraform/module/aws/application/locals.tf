@@ -17,4 +17,6 @@ locals {
     module.us_west_1,
     module.us_west_2
   )
+
+  domains = { for subdomain,record in aws_route53_record.subdomain: subdomain => record.name }
 }

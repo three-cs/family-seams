@@ -3,4 +3,3 @@ variable "target_regions" {
   default     = ["us-west-2"]
   description = "AWS Regions to deploy into."
 }
-

@@ -8,6 +8,6 @@ locals {
   }
 
   target_regions = var.target_regions
-  
+  ogranization_email = data.terraform_remote_state.global.outputs.ogranization_email
   aws = data.terraform_remote_state.environment.outputs.aws
 }

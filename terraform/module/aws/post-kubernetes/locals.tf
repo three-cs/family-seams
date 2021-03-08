@@ -7,6 +7,8 @@ locals {
 
   aws = var.aws
 
+  ogranization_email = var.ogranization_email
+
   region_modules = concat(
     module.us_east_1,
     module.us_east_2,

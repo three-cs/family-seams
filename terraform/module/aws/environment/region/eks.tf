@@ -12,7 +12,7 @@ module "eks" {
       name                 = "default-worker-group"
       instance_type        = "t2.small"
       asg_max_size         = 3
-      asg_desired_capacity = 1
+      asg_desired_capacity = 2
     }
   ]
   workers_additional_policies = [ local.eks.worker_policy_arn ]

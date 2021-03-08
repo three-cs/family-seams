@@ -9,6 +9,11 @@ variable "organization" {
   description = "Organization identifier for ownership."
 }
 
+variable "ogranization_email" {
+  type = string
+  description = "Default email address"
+}
+
 variable "default_tags" {
   type        = map(string)
   description = "Map of tags to apply to all AWS resources."
