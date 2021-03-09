@@ -16,18 +16,16 @@ resource "helm_release" "ingress_controller" {
   namespace  = "kube-system"
   wait       = false
 
-  set {
-    name  = "clusterName"
-    value = local.aws_region.eks.name
-    type  = "string"
-  }
-
   dynamic "set" {
-    for_each = local.default_tags
+    for_each = merge({
+        "clusterName" = local.aws_region.eks.name
+      },
+      { for tag, value in local.default_tags: "defaultTags.${tag}" => value }
+    )
     content {
-      name  = "defaultTags.${set.key}"
+      name  = set.key
       value = set.value
-      type  = "string"
+      type  = format("%s", set.value) == set.value ? "string" : "auto"
     }
   }
 }

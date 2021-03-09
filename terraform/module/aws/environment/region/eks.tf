@@ -1,20 +1,13 @@
 
 module "eks" {
   source          = "terraform-aws-modules/eks/aws"
-  version         = "13.2.1"
+  version         = "14.0.0"
   cluster_name    = local.eks.name
   cluster_version = "1.18"
   subnets         = module.vpc.private_subnets
   vpc_id          = module.vpc.vpc_id
 
-  worker_groups = [
-    {
-      name                 = "default-worker-group"
-      instance_type        = "t2.small"
-      asg_max_size         = 3
-      asg_desired_capacity = 2
-    }
-  ]
+  worker_groups = local.worker_groups
   workers_additional_policies = [ local.eks.worker_policy_arn ]
 
   tags = local.default_tags
@@ -43,7 +36,7 @@ module "eks" {
 }
 
 resource "aws_autoscaling_policy" "default_worker_group" {
-  for_each = toset(module.eks.workers_asg_names)
+  for_each = toset([ for wg in local.worker_groups: wg.name ])
   name                   = "${each.value}-policy"
   autoscaling_group_name = each.value
   policy_type            = "TargetTrackingScaling"

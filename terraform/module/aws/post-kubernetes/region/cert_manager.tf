@@ -7,76 +7,32 @@ resource "helm_release" "cert_manager" {
   wait       = true
   timeout = 600
 
-  set {
-    name = "installCRDs"
-    value = true
-    type = "auto"
-  }
-  set {
-    name  = "ingressShim.defaultIssuerName"
-    value = "letsencrypt"
-    type  = "string"
-  }
-  set {
-    name  = "ingressShim.defaultIssuerKind"
-    value = "ClusterIssuer"
-    type  = "string"
-  }
-  set {
-    name  = "ingressShim.defaultIssuerGroup"
-    value = "cert-manager.io"
-    type  = "string"
-  }
-  set {
-    name  = "ingressShim.defaultACMEChallengeType"
-    value = "dns01"
-    type  = "string"
-  }
-  set {
-    name  = "ingressShim.defaultACMEDNS01ChallengeProvider"
-    value = "route53"
-    type  = "string"
+  dynamic "set" {
+    for_each = {
+      "installCRDs" = true
+      "ingressShim.defaultIssuerName" = "letsencrypt"
+      "ingressShim.defaultIssuerKind" = "ClusterIssuer"
+      "ingressShim.defaultIssuerGroup" = "cert-manager.io"
+      "ingressShim.defaultACMEChallengeType" = "dns01"
+      "ingressShim.defaultACMEDNS01ChallengeProvider" = "route53"
+    }
+    content {
+      name  = set.key
+      value = set.value
+      type  = format("%s", set.value) == set.value ? "string" : "auto"
+    }
   }
 }
 
-resource "kubectl_manifest" "wildcard_certificate" {
-  depends_on = [helm_release.cert_manager]
-  yaml_body = yamlencode({
-    "apiVersion" = "cert-manager.io/v1"
-    "kind" = "Certificate"
-    "metadata" = {
-      "name" = "wildcard-certificate"
-      "namespace" = "kube-system"
-    }
-    "spec" = {
-      "secretName" = "wildcard-certificate"
-      "issuerRef" = {
-        "name" = "letsencrypt"
-        "kind" = "ClusterIssuer"
-      }
-      "commonName" = local.top_level_domain.domain
-      "dnsNames" = [
-        local.top_level_domain.domain,
-        "*.${local.top_level_domain.domain}"
-      ]
-      "acme" = {
-        "config" = [
-          {
-            "dns01" = {
-              "provider" = "acmedns"
-            }
-            "domains" = [
-              local.top_level_domain.domain,
-              "*.${local.top_level_domain.domain}"
-            ]
-          }
-        ]
-      }
-    }
-  })
-  wait      = true
+resource "helm_release" "reflector" {
+  name       = "reflector-controller"
+  repository = "https://emberstack.github.io/helm-charts"
+  chart      = "reflector"
+  version    = "5.4.17"
+  namespace  = "kube-system"
+  wait       = true
+  timeout = 600
 }
-
 
 resource "kubernetes_secret" "cluster_issuer" {
   metadata {
@@ -90,7 +46,6 @@ resource "kubernetes_secret" "cluster_issuer" {
 
   type = "Opaque"
 }
-
 
 resource "kubectl_manifest" "cluster_issuer" {
   depends_on = [helm_release.cert_manager, kubernetes_secret.cluster_issuer]
@@ -132,5 +87,46 @@ resource "kubectl_manifest" "cluster_issuer" {
         }
       }
     })
+  wait      = true
+}
+
+resource "kubectl_manifest" "wildcard_certificate" {
+  depends_on = [helm_release.reflector, kubectl_manifest.cluster_issuer]
+  yaml_body = yamlencode({
+    "apiVersion" = "cert-manager.io/v1"
+    "kind" = "Certificate"
+    "metadata" = {
+      "name" = "wildcard-certificate"
+      "namespace" = "kube-system"
+      "annotations" = {
+        "reflector.v1.k8s.emberstack.com/secret-reflection-allowed" = "true"
+      }
+    }
+    "spec" = {
+      "secretName" = "wildcard-certificate"
+      "issuerRef" = {
+        "name" = "letsencrypt"
+        "kind" = "ClusterIssuer"
+      }
+      "commonName" = local.top_level_domain.domain
+      "dnsNames" = [
+        local.top_level_domain.domain,
+        "*.${local.top_level_domain.domain}"
+      ]
+      "acme" = {
+        "config" = [
+          {
+            "dns01" = {
+              "provider" = "acmedns"
+            }
+            "domains" = [
+              local.top_level_domain.domain,
+              "*.${local.top_level_domain.domain}"
+            ]
+          }
+        ]
+      }
+    }
+  })
   wait      = true
 }

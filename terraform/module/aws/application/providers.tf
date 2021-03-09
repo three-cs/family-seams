@@ -4,7 +4,7 @@ provider "aws" {
 }
 provider "kubernetes" {
   alias          = "us_east_1"
-  config_context = "arn:aws:eks:us-east-1:${data.aws_caller_identity.current.account_id}:cluster/${local.eks_cluster_name}"
+  config_context = try(local.aws.regions["us-east-1"].eks.arn, "not-set")
 }
 
 provider "aws" {
@@ -13,7 +13,7 @@ provider "aws" {
 }
 provider "kubernetes" {
   alias          = "us_east_2"
-  config_context = "arn:aws:eks:us-east-2:${data.aws_caller_identity.current.account_id}:cluster/${local.eks_cluster_name}"
+  config_context = try(local.aws.regions["us-east-2"].eks.arn, "not-set")
 }
 
 provider "aws" {
@@ -22,7 +22,7 @@ provider "aws" {
 }
 provider "kubernetes" {
   alias          = "us_west_1"
-  config_context = "arn:aws:eks:us-west-1:${data.aws_caller_identity.current.account_id}:cluster/${local.eks_cluster_name}"
+  config_context = try(local.aws.regions["us-west-1"].eks.arn, "not-set")
 }
 
 provider "aws" {
@@ -31,7 +31,7 @@ provider "aws" {
 }
 provider "kubernetes" {
   alias          = "us_west_2"
-  config_context = "arn:aws:eks:us-west-2:${data.aws_caller_identity.current.account_id}:cluster/${local.eks_cluster_name}"
+  config_context = try(local.aws.regions["us-west-2"].eks.arn, "not-set")
 }
 
 # TODO : Add providers for additional regions

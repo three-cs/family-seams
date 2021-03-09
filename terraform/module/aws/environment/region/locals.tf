@@ -21,6 +21,14 @@ locals {
   public_subnet_cidrs  = slice(local.all_cidrs, local.availability_zone_count, local.subnet_count)
 
   eks = var.eks
+  worker_groups = [
+    {
+      name                 = "default-worker-group"
+      instance_type        = "t2.small"
+      asg_max_size         = 3
+      asg_desired_capacity = 2
+    }
+  ]
 
   fargate_roles = chomp(data.local_file.aws_fargate_roles.content) == "null" ? [] : jsondecode(data.local_file.aws_fargate_roles.content)
 
