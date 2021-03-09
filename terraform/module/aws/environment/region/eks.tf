@@ -36,9 +36,9 @@ module "eks" {
 }
 
 resource "aws_autoscaling_policy" "default_worker_group" {
-  for_each = toset([ for wg in local.worker_groups: wg.name ])
-  name                   = "${each.value}-policy"
-  autoscaling_group_name = each.value
+  count = length(local.worker_groups)
+  name                   = "${module.eks.workers_asg_names[count.index]}-policy"
+  autoscaling_group_name = module.eks.workers_asg_names[count.index]
   policy_type            = "TargetTrackingScaling"
 
   target_tracking_configuration {
