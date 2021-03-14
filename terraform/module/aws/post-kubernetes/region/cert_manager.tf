@@ -58,7 +58,7 @@ resource "kubectl_manifest" "cluster_issuer" {
       }
       "spec" = {
         "acme" = {
-          "server" = "https://acme-staging-v02.api.letsencrypt.org/directory"
+          "server" = "https://acme-v02.api.letsencrypt.org/directory"
           "email" = local.ogranization_email
           "privateKeySecretRef" = {
             "name" = "clusterissuer"
@@ -129,4 +129,18 @@ resource "kubectl_manifest" "wildcard_certificate" {
     }
   })
   wait      = true
+}
+
+resource "aws_acm_certificate" "wildcard_certificate" {
+  private_key = data.kubernetes_secret.wildcard_certificate.data["tls.key"]
+  certificate_body = local.certs[0]
+  certificate_chain = data.kubernetes_secret.wildcard_certificate.data["tls.crt"]
+
+  tags = merge({
+    "Name"= "wildcard-certifiate"
+  }, local.default_tags)
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }

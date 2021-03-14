@@ -23,7 +23,7 @@ locals {
     "subdomain"  = "api"
   }
   subdomain_load_balancers = {
-    "api" = data.kubernetes_service.api.status[0].load_balancer[0].ingress[0].hostname
+    "api" = kubernetes_ingress.api.status[0].load_balancer[0].ingress[0].hostname
   }
 
   top_level_domain = data.terraform_remote_state.environment.outputs.aws.top_level_domain

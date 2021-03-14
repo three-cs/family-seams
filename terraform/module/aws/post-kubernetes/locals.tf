@@ -18,5 +18,6 @@ locals {
 
   regions = { for mod in local.region_modules : mod.region => {
     "region" = mod.region
+    "wildcard_certificate" = mod.wildcard_certificate
   } }
 }

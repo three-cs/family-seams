@@ -11,4 +11,6 @@ locals {
   ogranization_email = var.ogranization_email
 
   cluster_issuer_access_key = var.cluster_issuer_access_key
+
+  certs = regexall("(?s:-----BEGIN CERTIFICATE-----[^\\-]+-----END CERTIFICATE-----)", data.kubernetes_secret.wildcard_certificate.data["tls.crt"])
 }
