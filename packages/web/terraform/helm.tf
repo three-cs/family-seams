@@ -27,13 +27,8 @@ resource "helm_release" "web" {
       "extraEnvVars[1].name"              = "PROBE_PORT"
       "extraEnvVars[1].value"             = format("%s", local.web.probe_port)
       "service.type"                      = "NodePort"
-      # "service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-type" = "nlb-ip"
-      "ingress.enabled" = false
-      # "ingress.hostname" = "web.${local.top_level_domain.domain}"
-      # "ingress.certManager" = true
-      # "ingress.tls" = true
-      # "ingress.annotations.cert-manager\\.io/cluster-issuer" = "letsencrypt"
-      "mongodb.enabled" = false
+      "ingress.enabled"                   = false
+      "mongodb.enabled"                   = false
     }
     content {
       name  = set.key
