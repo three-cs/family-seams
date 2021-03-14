@@ -20,7 +20,17 @@ locals {
   private_subnet_cidrs = slice(local.all_cidrs, 0, local.availability_zone_count)
   public_subnet_cidrs  = slice(local.all_cidrs, local.availability_zone_count, local.subnet_count)
 
-  eks_cluster_name = var.eks_cluster_name
+  eks = var.eks
+  worker_groups = [
+    {
+      name                 = "default-worker-group"
+      instance_type        = "t2.small"
+      asg_max_size         = 3
+      asg_min_size         = 2
+      asg_desired_capacity = 2
+      root_volume_type     = "gp2"
+    }
+  ]
 
   fargate_roles = chomp(data.local_file.aws_fargate_roles.content) == "null" ? [] : jsondecode(data.local_file.aws_fargate_roles.content)
 
@@ -31,7 +41,7 @@ locals {
     "public_subnets"  = module.vpc.public_subnets
   }
 
-  eks = {
+  eks_output = {
     "name"     = module.eks.cluster_id
     "arn"      = module.eks.cluster_arn
     "endpoint" = module.eks.cluster_endpoint

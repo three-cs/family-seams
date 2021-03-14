@@ -1,4 +1,5 @@
 
+
 resource "helm_release" "api" {
   name = local.application
   # documentation : https://github.com/bitnami/charts/tree/master/bitnami/node
@@ -12,98 +13,78 @@ resource "helm_release" "api" {
 
   values = [file("${path.module}/helm/values.yaml")]
 
-  set {
-    name  = "image.registry"
-    value = local.api.image.domain
-    type  = "string"
+  dynamic "set" {
+    for_each = {
+      "image.registry"                    = local.api.image.domain
+      "image.repository"                  = local.api.image.name
+      "image.tag"                         = local.api.version
+      "image.pullPolicy"                  = "Always"
+      "replicaCount"                      = local.api.replicas
+      "applicationPort"                   = local.api.http_port
+      "customLivenessProbe.httpGet.port"  = local.api.probe_port
+      "customReadinessProbe.httpGet.port" = local.api.probe_port
+      "extraEnvVars[0].name"              = "SERVER_PORT"
+      "extraEnvVars[0].value"             = format("%s", local.api.http_port)
+      "extraEnvVars[1].name"              = "PROBE_PORT"
+      "extraEnvVars[1].value"             = format("%s", local.api.probe_port)
+      "service.type"                      = "NodePort"
+      "ingress.enabled"                   = false
+      "mongodb.enabled"                   = false
+    }
+    content {
+      name  = set.key
+      value = set.value
+      type  = format("%s", set.value) == set.value ? "string" : "auto"
+    }
+  }
+}
+
+resource "kubernetes_ingress" "api" {
+  depends_on = [helm_release.api]
+
+  wait_for_load_balancer = true
+
+  // networking.k8s.io/v1
+  metadata {
+    name      = "${helm_release.api.metadata[0].name}-node"
+    namespace = helm_release.api.metadata[0].namespace
+    annotations = {
+      "alb.ingress.kubernetes.io/scheme"           = "internet-facing"
+      "alb.ingress.kubernetes.io/target-type"      = "ip"
+      "alb.ingress.kubernetes.io/healthcheck-path" = "/api/hello-world"
+      "alb.ingress.kubernetes.io/certificate-arn"  = data.terraform_remote_state.post_kubernetes.outputs.result.regions["us-west-2"].wildcard_certificate
+      "alb.ingress.kubernetes.io/listen-ports" = jsonencode([
+        { "HTTP" = 80 },
+        { "HTTPS" = 443 }
+      ])
+      "alb.ingress.kubernetes.io/tags" = join(",", [for name, value in local.default_tags : "${name}=${value}"])
+      "kubernetes.io/ingress.class"    = "alb"
+    }
   }
 
-  set {
-    name  = "image.repository"
-    value = local.api.image.name
-    type  = "string"
-  }
+  spec {
+    backend {
+      service_name = "api-node"
+      service_port = "http"
+    }
 
-  set {
-    name  = "image.tag"
-    value = local.api.version
-    type  = "string"
-  }
+    rule {
+      host = "api.${local.top_level_domain.domain}"
+      http {
+        path {
+          backend {
+            service_name = "api-node"
+            service_port = "http"
+          }
 
-  set {
-    name  = "image.pullPolicy"
-    value = "Always"
-    type  = "string"
-  }
+          path = "/*"
+        }
+      }
+    }
 
-  set {
-    name  = "replicaCount"
-    value = local.api.replicas
-    type  = "auto"
-  }
-
-  set {
-    name  = "applicationPort"
-    value = local.api.http_port
-    type  = "auto"
-  }
-
-  set {
-    name  = "customLivenessProbe.httpGet.port"
-    value = local.api.probe_port
-    type  = "auto"
-  }
-
-  set {
-    name  = "customReadinessProbe.httpGet.port"
-    value = local.api.probe_port
-    type  = "auto"
-  }
-
-  set {
-    name  = "extraEnvVars[0].name"
-    value = "SERVER_PORT"
-    type  = "string"
-  }
-  set {
-    name  = "extraEnvVars[0].value"
-    value = local.api.http_port
-    type  = "string"
-  }
-
-  set {
-    name  = "extraEnvVars[1].name"
-    value = "PROBE_PORT"
-    type  = "string"
-  }
-
-  set {
-    name  = "extraEnvVars[1].value"
-    value = local.api.probe_port
-    type  = "string"
-  }
-
-  set {
-    name  = "service.type"
-    value = "LoadBalancer"
-    type  = "string"
-  }
-
-  set {
-    name  = "service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-type"
-    value = "nlb-ip"
-    type  = "string"
-  }
-
-  set {
-    name  = "ingress.enabled"
-    value = true
-    type  = "auto"
-  }
-
-  set {
-    name  = "mongodb.enabled"
-    value = false
-    type  = "auto"
+    tls {
+      hosts       = ["api.${local.top_level_domain.domain}"]
+      secret_name = "wildcard-certificate"
+    }
   }
 }

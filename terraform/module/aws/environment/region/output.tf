@@ -9,6 +9,6 @@ output "vpc" {
 }
 
 output "eks" {
-  value       = local.eks
+  value       = local.eks_output
   description = "EKS Information"
 }

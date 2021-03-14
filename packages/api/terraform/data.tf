@@ -20,9 +20,12 @@ data "terraform_remote_state" "environment" {
   }
 }
 
-data "kubernetes_service" "api" {
-  metadata {
-    name      = "${helm_release.api.metadata[0].name}-node"
-    namespace = helm_release.api.metadata[0].namespace
+data "terraform_remote_state" "post_kubernetes" {
+  backend   = "s3"
+  workspace = local.environment
+
+  config = {
+    bucket = "family-seams-terraform-bucket"
+    key    = "post-kubernetes/terraform.tfstate"
   }
 }

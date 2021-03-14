@@ -18,3 +18,8 @@ output "ecr_credential_location" {
   value       = "https://${aws_s3_bucket_object.ci_ecr_user.bucket}.s3.amazonaws.com/${aws_s3_bucket_object.ci_ecr_user.key}"
   description = "Location of the ECR push credentials to use."
 }
+
+output "ogranization_email" {
+  value       = "family.seams@gmail.com"
+  description = "Default email address"
+}

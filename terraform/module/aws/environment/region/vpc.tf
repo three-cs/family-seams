@@ -78,11 +78,11 @@ module "vpc" {
   # EKS Subnet Tagging
   # https://aws.amazon.com/premiumsupport/knowledge-center/eks-vpc-subnet-discovery/
   private_subnet_tags = {
-    ("kubernetes.io/cluster/${local.eks_cluster_name}") = "shared"
-    "kubernetes.io/role/internal-elb"                   = 1
+    ("kubernetes.io/cluster/${local.eks.name}") = "shared"
+    "kubernetes.io/role/internal-elb"           = 1
   }
   public_subnet_tags = {
-    ("kubernetes.io/cluster/${local.eks_cluster_name}") = "shared"
-    "kubernetes.io/role/elb"                            = 1
+    ("kubernetes.io/cluster/${local.eks.name}") = "shared"
+    "kubernetes.io/role/elb"                    = 1
   }
 }
