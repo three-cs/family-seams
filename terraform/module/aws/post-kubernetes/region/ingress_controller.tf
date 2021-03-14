@@ -18,9 +18,9 @@ resource "helm_release" "ingress_controller" {
 
   dynamic "set" {
     for_each = merge({
-        "clusterName" = local.aws_region.eks.name
+      "clusterName" = local.aws_region.eks.name
       },
-      { for tag, value in local.default_tags: "defaultTags.${tag}" => value }
+      { for tag, value in local.default_tags : "defaultTags.${tag}" => value }
     )
     content {
       name  = set.key

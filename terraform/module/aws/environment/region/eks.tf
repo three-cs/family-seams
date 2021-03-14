@@ -7,8 +7,8 @@ module "eks" {
   subnets         = module.vpc.private_subnets
   vpc_id          = module.vpc.vpc_id
 
-  worker_groups = local.worker_groups
-  workers_additional_policies = [ local.eks.worker_policy_arn ]
+  worker_groups               = local.worker_groups
+  workers_additional_policies = [local.eks.worker_policy_arn]
 
   tags = local.default_tags
 
@@ -36,7 +36,7 @@ module "eks" {
 }
 
 resource "aws_autoscaling_policy" "default_worker_group" {
-  count = length(local.worker_groups)
+  count                  = length(local.worker_groups)
   name                   = "${module.eks.workers_asg_names[count.index]}-policy"
   autoscaling_group_name = module.eks.workers_asg_names[count.index]
   policy_type            = "TargetTrackingScaling"

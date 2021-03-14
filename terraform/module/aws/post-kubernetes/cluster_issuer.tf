@@ -20,10 +20,10 @@ resource "aws_iam_policy" "cluster_issuer" {
 
   policy = jsonencode({
     "Version" = "2012-10-17"
-    "Statement"= [
+    "Statement" = [
       {
-        "Effect" = "Allow"
-        "Action" = "route53:GetChange"
+        "Effect"   = "Allow"
+        "Action"   = "route53:GetChange"
         "Resource" = "arn:aws:route53:::change/*"
       },
       {
@@ -35,8 +35,8 @@ resource "aws_iam_policy" "cluster_issuer" {
         "Resource" = "arn:aws:route53:::hostedzone/*"
       },
       {
-        "Effect" = "Allow"
-        "Action" = "route53:ListHostedZonesByName"
+        "Effect"   = "Allow"
+        "Action"   = "route53:ListHostedZonesByName"
         "Resource" = "*"
       }
     ]

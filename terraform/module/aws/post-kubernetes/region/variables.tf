@@ -10,7 +10,7 @@ variable "organization" {
 }
 
 variable "ogranization_email" {
-  type = string
+  type        = string
   description = "Default email address"
 }
 
@@ -46,6 +46,6 @@ variable "top_level_domain" {
 }
 
 variable "cluster_issuer_access_key" {
-  type = map(string)
+  type        = map(string)
   description = "Access Key Credentials for the access_key."
 }

@@ -5,14 +5,14 @@ data "http" "ingress_controller_crds" {
 }
 
 resource "time_sleep" "wildcard_certificate" {
-  depends_on = [ kubectl_manifest.wildcard_certificate ]
+  depends_on      = [kubectl_manifest.wildcard_certificate]
   create_duration = "5m"
 }
 
 data "kubernetes_secret" "wildcard_certificate" {
-  depends_on = [ time_sleep.wildcard_certificate ]
+  depends_on = [time_sleep.wildcard_certificate]
   metadata {
-    name = "wildcard-certificate"
+    name      = "wildcard-certificate"
     namespace = "kube-system"
   }
 }

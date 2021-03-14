@@ -28,6 +28,6 @@ variable "availability_zone_count" {
 }
 
 variable "eks" {
-  type = map(string)
+  type        = map(string)
   description = "EKS configuration information."
 }

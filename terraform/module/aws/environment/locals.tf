@@ -6,7 +6,7 @@ locals {
   eks_cluster_name = "${local.organization}-${local.environment}"
 
   eks = {
-    "name" = local.eks_cluster_name
+    "name"              = local.eks_cluster_name
     "worker_policy_arn" = aws_iam_policy.worker_policy.arn
   }
 

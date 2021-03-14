@@ -10,7 +10,7 @@ variable "organization" {
 }
 
 variable "ogranization_email" {
-  type = string
+  type        = string
   description = "Default email address"
 }
 

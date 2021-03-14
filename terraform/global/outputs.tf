@@ -20,6 +20,6 @@ output "ecr_credential_location" {
 }
 
 output "ogranization_email" {
-  value = "family.seams@gmail.com"
+  value       = "family.seams@gmail.com"
   description = "Default email address"
 }

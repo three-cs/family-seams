@@ -28,7 +28,7 @@ locals {
       asg_max_size         = 3
       asg_min_size         = 2
       asg_desired_capacity = 2
-      root_volume_type = "gp2"
+      root_volume_type     = "gp2"
     }
   ]
 
