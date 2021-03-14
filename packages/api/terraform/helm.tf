@@ -51,6 +51,8 @@ resource "helm_release" "api" {
 
 resource "kubernetes_ingress" "api" {
   depends_on = [ helm_release.api ]
+  
+  wait_for_load_balancer = true
 
   // networking.k8s.io/v1
   metadata {

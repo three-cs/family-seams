@@ -29,10 +29,3 @@ data "terraform_remote_state" "post_kubernetes" {
     key    = "post-kubernetes/terraform.tfstate"
   }
 }
-
-# data "kubernetes_ingress" "api" {
-#   metadata {
-#     name      = "${helm_release.api.metadata[0].name}-node"
-#     namespace = helm_release.api.metadata[0].namespace
-#   }
-# }

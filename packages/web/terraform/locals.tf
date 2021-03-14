@@ -23,7 +23,7 @@ locals {
     "subdomain"  = "web"
   }
   subdomain_load_balancers = {
-    "web" = data.kubernetes_service.web.status[0].load_balancer[0].ingress[0].hostname
+    "web" = kubernetes_ingress.web.status[0].load_balancer[0].ingress[0].hostname
   }
 
   top_level_domain = data.terraform_remote_state.environment.outputs.aws.top_level_domain
