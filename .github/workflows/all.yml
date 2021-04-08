@@ -1,15 +1,15 @@
 name: all
 on:
   workflow_dispatch: {}
-  push:
-    branches:
-      - '**'
-    paths-ignore:
-      - 'lerna.json'
-      - 'package.json'
-      - 'package-lock.json'
-      - 'packages/*/package.json'
-      - 'packages/*/package-lock.json'
+  # push:
+  #   branches:
+  #     - '**'
+  #   paths-ignore:
+  #     - 'lerna.json'
+  #     - 'package.json'
+  #     - 'package-lock.json'
+  #     - 'packages/*/package.json'
+  #     - 'packages/*/package-lock.json'
 
 jobs:
   build:
