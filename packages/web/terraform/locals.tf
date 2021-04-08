@@ -18,7 +18,7 @@ locals {
     "image"      = data.terraform_remote_state.global.outputs.ecrs["${local.organization}/web"]
     "http_port"  = 3000
     "probe_port" = 3000
-    "replicas"   = 3
+    "replicas"   = 1
     "namespace"  = "web"
     "subdomain"  = "web"
   }
